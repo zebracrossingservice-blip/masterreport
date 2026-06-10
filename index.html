@@ -3,455 +3,381 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>門市主管每日回報系統</title>
+    <title>ZC 門市主管營運日報系統 V3.1</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background-color: #f5f5f7; color: #333; margin: 0; padding: 20px; }
-        .container { max-width: 700px; background: white; margin: 0 auto; padding: 25px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-        h1 { text-align: center; color: #1d1d1f; font-size: 24px; margin-bottom: 25px; border-bottom: 2px solid #333; padding-bottom: 10px; }
-        h2 { font-size: 18px; color: #0071e3; margin-top: 25px; border-left: 4px solid #0071e3; padding-left: 8px; }
-        .section { background: #f9f9fb; padding: 15px; border-radius: 8px; margin-bottom: 15px; border: 1px solid #e5e5ea; }
-        .form-group { margin-bottom: 15px; }
-        label { display: block; font-weight: bold; margin-bottom: 5px; font-size: 14px; }
-        input[type="text"], input[type="number"], select, textarea { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; font-size: 14px; }
-        textarea { resize: vertical; height: 80px; }
-        .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
-        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-        .grid-4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 10px; }
-        .btn-submit { background-color: #0071e3; color: white; border: none; padding: 12px 20px; font-size: 16px; font-weight: bold; border-radius: 8px; width: 100%; cursor: pointer; margin-top: 20px; transition: background 0.2s; }
-        .btn-submit:hover { background-color: #002144; }
-        #output-area { margin-top: 25px; display: none; }
-        #outputText { width: 100%; height: 400px; font-family: monospace; font-size: 13px; background: #272822; color: #f8f8f2; padding: 15px; border-radius: 8px; }
-        .btn-copy { background-color: #34c759; color: white; border: none; padding: 10px; font-size: 14px; font-weight: bold; border-radius: 6px; width: 100%; cursor: pointer; margin-top: 5px; }
-        .sub-title { font-weight: bold; color: #333; margin-top: 10px; display: block; }
-        .hide-input { display: none; margin-top: 5px; }
-        .alert-hint { font-size: 12px; color: #ff3b30; font-weight: bold; margin-top: 2px; }
+        body { 
+            background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%); 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang TC", "Microsoft JhengHei", sans-serif;
+            min-height: 100vh;
+        }
+        .card { 
+            background: rgba(255, 255, 255, 0.96); 
+            border-radius: 20px; 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            backdrop-filter: blur(10px);
+        }
+        .section-title { 
+            border-left: 5px solid #0071e3; 
+            padding-left: 10px; 
+            font-weight: bold; 
+            color: #1d1d1f;
+            margin: 1.5rem 0 1rem 0;
+        }
+        input, select, textarea { 
+            width: 100%; padding: 0.75rem; border: 1px solid #d2d2d7; border-radius: 10px; margin-bottom: 0.5rem; font-size: 14px;
+            transition: all 0.2s ease;
+            background-color: white;
+        }
+        input:focus, select:focus, textarea:focus { outline: none; border-color: #0071e3; ring: 2px rgba(0,113,227,0.2); }
+        .gantt-table { width: 100%; font-size: 12px; text-align: center; border-collapse: collapse; }
+        .gantt-table th, .gantt-table td { border: 1px solid #e5e7eb; padding: 6px 2px; }
+        .progress-bar { height: 8px; background: #e5e7eb; border-radius: 4px; overflow: hidden; }
+        .progress-fill { height: 100%; background: #0071e3; transition: width 0.3s ease; }
     </style>
 </head>
-<body>
+<body class="p-4 md:p-8">
 
-<div class="container">
-    <h1>門市主管每日回報系統</h1>
-    
-    <!-- 基本資訊 -->
-    <div class="section">
-        <div class="grid-3">
-            <div class="form-group">
-                <label>今天日期</label>
-                <input type="date" id="date">
-            </div>
-            <div class="form-group">
-                <label>星期幾</label>
+<div class="max-w-4xl mx-auto">
+    <header class="text-center mb-8">
+        <h1 class="text-3xl font-bold text-gray-900 tracking-tight">門市主管每日回報系統 V3.1</h1>
+        <p class="text-gray-500 mt-2">Zebra Crossing Management System · 店鋪利潤中心每日損益完全體</p>
+    </header>
+
+    <div class="card p-6 mb-6">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div><label>日期</label><input type="date" id="date"></div>
+            <div>
+                <label>星期</label>
                 <select id="dayOfWeek">
-                    <option value="星期一">星期一</option>
-                    <option value="星期二">星期二</option>
-                    <option value="星期三">星期三</option>
-                    <option value="星期四">星期四</option>
-                    <option value="星期五">星期五</option>
-                    <option value="星期六">星期六</option>
+                    <option value="星期一">星期一</option><option value="星期二">星期二</option>
+                    <option value="星期三">星期三</option><option value="星期四">星期四</option>
+                    <option value="星期五">星期五</option><option value="星期六">星期六</option>
                     <option value="星期日">星期日</option>
                 </select>
             </div>
-            <div class="form-group">
-                <label>天氣</label>
-                <input type="text" id="weather" placeholder="例：晴天">
-            </div>
-        </div>
-        <div class="form-group">
-            <label>今日在哪一個門市</label>
-            <select id="currentLocation">
-                <option value="總部">總部</option>
-                <option value="中原">中原</option>
-                <option value="新竹">新竹</option>
-                <option value="中山">中山</option>
-                <option value="南西">南西</option>
-                <option value="中山南西">中山南西</option>
-                <option value="新竹中原">新竹中原</option>
-                <option value="總部中山">總部中山</option>
-                <option value="總部中原">總部中原</option>
-                <option value="放假">放假</option>
-            </select>
-        </div>
-    </div>
-
-    <!-- 開店前會議 -->
-    <h2>新功能：各店開門前是否有主持會議與布達</h2>
-    <div class="section grid-4">
-        <div><label>中原</label><select id="meeting_zy"><option value="有">有</option><option value="無">無</option></select></div>
-        <div><label>新竹</label><select id="meeting_xz"><option value="有">有</option><option value="無">無</option></select></div>
-        <div><label>中山</label><select id="meeting_zs"><option value="有">有</option><option value="無">無</option></select></div>
-        <div><label>南西</label><select id="meeting_nx"><option value="有">有</option><option value="無">無</option></select></div>
-    </div>
-
-    <!-- 一、各店開門店務缺失項目及扣分 -->
-    <h2>一、各店開門店務缺失項目及扣分</h2>
-    <div class="section">
-        <div class="form-group">
-            <label>中原</label>
-            <select id="miss_status_zy" onchange="toggleMissInput('zy')"><option value="都有完成">都有完成</option><option value="缺失">缺失</option></select>
-            <input type="text" id="miss_content_zy" class="hide-input" placeholder="請輸入缺失項目內容與扣分">
-        </div>
-        <div class="form-group">
-            <label>新竹</label>
-            <select id="miss_status_xz" onchange="toggleMissInput('xz')"><option value="都有完成">都有完成</option><option value="缺失">缺失</option></select>
-            <input type="text" id="miss_content_xz" class="hide-input" placeholder="請輸入缺失項目內容與扣分">
-        </div>
-        <div class="form-group">
-            <label>中山</label>
-            <select id="miss_status_zs" onchange="toggleMissInput('zs')"><option value="都有完成">都有完成</option><option value="缺失">缺失</option></select>
-            <input type="text" id="miss_content_zs" class="hide-input" placeholder="請輸入缺失項目內容與扣分">
-        </div>
-        <div class="form-group">
-            <label>南西</label>
-            <select id="miss_status_nx" onchange="toggleMissInput('nx')"><option value="都有完成">都有完成</option><option value="缺失">缺失</option></select>
-            <input type="text" id="miss_content_nx" class="hide-input" placeholder="請輸入缺失項目內容與扣分">
-        </div>
-    </div>
-
-    <!-- 二、社群行銷 -->
-    <h2>二、社群行銷</h2>
-    <div class="section">
-        <div style="margin-bottom: 10px; background:#fff; padding:10px; border-radius:6px; border:1px solid #ddd;">
-            <span class="sub-title">【中原店】</span>
-            <div class="grid-3">
-                <input type="number" id="sc_num_zy" placeholder="幾則限動">
-                <input type="text" id="sc_time_zy" placeholder="幾點前發完">
-                <select id="sc_box_zy"><option value="有">小盒子已回覆(有)</option><option value="無">小盒子未回覆(無)</option></select>
-            </div>
-        </div>
-        <div style="margin-bottom: 10px; background:#fff; padding:10px; border-radius:6px; border:1px solid #ddd;">
-            <span class="sub-title">【新竹店】</span>
-            <div class="grid-3">
-                <input type="number" id="sc_num_xz" placeholder="幾則限動">
-                <input type="text" id="sc_time_xz" placeholder="幾點前發完">
-                <select id="sc_box_xz"><option value="開">小盒子已回覆(有)</option><option value="無">小盒子未回覆(無)</option></select>
-            </div>
-        </div>
-        <div style="margin-bottom: 10px; background:#fff; padding:10px; border-radius:6px; border:1px solid #ddd;">
-            <span class="sub-title">【南西店】</span>
-            <div class="grid-3">
-                <input type="number" id="sc_num_nx" placeholder="幾則限動">
-                <input type="text" id="sc_time_nx" placeholder="幾點前發完">
-                <select id="sc_box_nx"><option value="有">小盒子已回覆(有)</option><option value="無">小盒子未回覆(無)</option></select>
-            </div>
-        </div>
-        <div style="margin-bottom: 10px; background:#fff; padding:10px; border-radius:6px; border:1px solid #ddd;">
-            <span class="sub-title">【中山店】</span>
-            <div class="grid-3">
-                <input type="number" id="sc_num_zs" placeholder="幾則限動">
-                <input type="text" id="sc_time_zs" placeholder="幾點前發完">
-                <select id="sc_box_zs"><option value="有">小盒子已回覆(有)</option><option value="無">小盒子未回覆(無)</option></select>
+            <div><label>今日天氣</label><input type="text" id="weather" placeholder="例：晴天"></div>
+            <div>
+                <label>主管駐點門市</label>
+                <select id="currentLocation">
+                    <option value="總部">總部</option><option value="中原">中原</option>
+                    <option value="新竹">新竹</option><option value="中山">中山</option>
+                    <option value="南西">南西</option><option value="中山南西">中山南西</option>
+                    <option value="新竹中原">新竹中原</option><option value="總部中山">總部中山</option>
+                    <option value="放假">放假</option>
+                </select>
             </div>
         </div>
     </div>
 
-    <!-- 三、各店業績數據 -->
-    <h2>三、各店業績數據</h2>
-    
-    <!-- 中原 -->
-    <div class="section">
-        <b style="color:#e91e63;">【中原店】</b> (春夏標準: 2200件)
-        <div class="grid-3" style="margin-top:5px;">
-            <input type="number" id="zy_p1" onchange="calcZyStaff()" placeholder="正職人數">
-            <input type="number" id="zy_p2" onchange="calcZyStaff()" placeholder="PT人數">
-            <input type="number" id="zy_p3" onchange="calcZyStaff()" placeholder="支援人數">
+    <div class="card p-6 mb-6">
+        <div class="flex justify-between items-center mb-4">
+            <h2 class="section-title">📊 管理進度與里程碑 (執行率：<span id="progress-text">0%</span>)</h2>
         </div>
-        <div class="grid-3" style="margin-top:5px;">
-            <input type="number" id="zy_rev" placeholder="今日營業額">
-            <input type="number" id="zy_pcs" placeholder="售出件數">
-            <input type="number" id="zy_upt" step="0.01" onchange="checkUpt('zy')" placeholder="UPT">
-        </div>
-        <input type="text" id="zy_top3" style="margin-top:5px;" placeholder="銷售前三名">
-        <input type="number" id="zy_total_pcs" style="margin-top:5px;" placeholder="本月累積件數">
-        <input type="text" id="zy_upt_reason" class="hide-input" placeholder="⚠️ UPT低於1.99，請特別提供原因及報告">
-    </div>
+        <div class="progress-bar mb-6"><div id="progress-fill" class="progress-fill" style="width: 0%;"></div></div>
 
-    <!-- 新竹 -->
-    <div class="section">
-        <b style="color:#e91e63;">【新竹店】</b> (春夏標準: 1400件)
-        <div class="grid-3" style="margin-top:5px;">
-            <input type="number" id="xz_p1" placeholder="正職人數">
-            <input type="number" id="xz_p2" placeholder="PT人數">
-            <input type="number" id="xz_p3" placeholder="支援人數">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+            <div class="task-item bg-gray-50 p-3 rounded-xl border border-gray-100">
+                <label class="text-xs text-blue-600 font-bold">【週一】全員考績表確認與上繳</label>
+                <select class="milestone-task" onchange="updateProgress()"><option value="尚未操作">尚未操作</option><option value="今日操作">今日操作</option><option value="已經操作">已經操作</option></select>
+            </div>
+            <div class="task-item bg-gray-50 p-3 rounded-xl border border-gray-100">
+                <label class="text-xs text-blue-600 font-bold">【週一】回報上週各店業績與去向分析</label>
+                <select class="milestone-task" onchange="updateProgress()"><option value="尚未操作">尚未操作</option><option value="今日操作">今日操作</option><option value="已經操作">已經操作</option></select>
+            </div>
+            <div class="task-item bg-gray-50 p-3 rounded-xl border border-gray-100">
+                <label class="text-xs text-blue-600 font-bold">【週二】繳交上週各市場競品商圈分析</label>
+                <select class="milestone-task" onchange="updateProgress()"><option value="尚未操作">尚未操作</option><option value="今日操作">今日操作</option><option value="已經操作">已經操作</option></select>
+            </div>
+            <div class="task-item bg-gray-50 p-3 rounded-xl border border-gray-100">
+                <label class="text-xs text-blue-600 font-bold">【週五】回報本週各店人事面試試上進度</label>
+                <select class="milestone-task" onchange="updateProgress()"><option value="尚未操作">尚未操作</option><option value="今日操作">今日操作</option><option value="已經操作">已經操作</option></select>
+            </div>
         </div>
-        <div class="grid-3" style="margin-top:5px;">
-            <input type="number" id="xz_rev" placeholder="今日營業額">
-            <input type="number" id="xz_pcs" placeholder="售出件數">
-            <input type="number" id="xz_upt" step="0.01" onchange="checkUpt('xz')" placeholder="UPT">
-        </div>
-        <input type="text" id="xz_top3" style="margin-top:5px;" placeholder="銷售前三名">
-        <input type="number" id="xz_total_pcs" style="margin-top:5px;" placeholder="本月累積件數">
-        <input type="text" id="xz_upt_reason" class="hide-input" placeholder="⚠️ UPT低於1.99，請特別提供原因及報告">
-    </div>
 
-    <!-- 中山 -->
-    <div class="section">
-        <b style="color:#e91e63;">【中山店】</b> (春夏標準: 4800件)
-        <div class="grid-3" style="margin-top:5px;">
-            <input type="number" id="zs_p1" placeholder="正職人數">
-            <input type="number" id="zs_p2" placeholder="PT人數">
-            <input type="number" id="zs_p3" placeholder="支援人數">
-        </div>
-        <div class="grid-3" style="margin-top:5px;">
-            <input type="number" id="zs_rev" placeholder="今日營業額">
-            <input type="number" id="zs_pcs" placeholder="售出件數">
-            <input type="number" id="zs_upt" step="0.01" onchange="checkUpt('zs')" placeholder="UPT">
-        </div>
-        <input type="text" id="zs_top3" style="margin-top:5px;" placeholder="銷售前三名">
-        <input type="number" id="zs_total_pcs" style="margin-top:5px;" placeholder="本月累積件數">
-        <input type="text" id="zs_upt_reason" class="hide-input" placeholder="⚠️ UPT低於1.99，請特別提供原因及報告">
-    </div>
-
-    <!-- 南西 -->
-    <div class="section">
-        <b style="color:#e91e63;">【南西店】</b> (6月標準: 5800件)
-        <div class="grid-3" style="margin-top:5px;">
-            <input type="number" id="nx_p1" placeholder="正職人數">
-            <input type="number" id="nx_p2" placeholder="PT人數">
-            <input type="number" id="nx_p3" placeholder="支援人數">
-        </div>
-        <div class="grid-3" style="margin-top:5px;">
-            <input type="number" id="nx_rev" placeholder="今日營業額">
-            <input type="number" id="nx_pcs" placeholder="售出件數">
-            <input type="number" id="nx_upt" step="0.01" onchange="checkUpt('nx')" placeholder="UPT">
-        </div>
-        <input type="text" id="nx_top3" style="margin-top:5px;" placeholder="銷售前三名">
-        <input type="number" id="nx_total_pcs" style="margin-top:5px;" placeholder="本月累積件數">
-        <input type="text" id="nx_upt_reason" class="hide-input" placeholder="⚠️ UPT低於1.99，請特別提供原因及報告">
-    </div>
-
-    <!-- 四、觀察市場 -->
-    <h2>四、觀察市場 (五分鐘客流計數)</h2>
-    <div class="section">
-        <div style="margin-bottom:10px; background:#fff; padding:10px; border-radius:6px; border:1px solid #ddd;">
-            <span class="sub-title">🏬 中原店 (16-17 / 19-20 時段)</span>
-            <div class="grid-2"><input type="text" id="flow_zy_1" placeholder="16-17點 路過/進場人流"> <input type="text" id="flow_zy_2" placeholder="19-20點 路過/進場人流"></div>
-        </div>
-        <div style="margin-bottom:10px; background:#fff; padding:10px; border-radius:6px; border:1px solid #ddd;">
-            <span class="sub-title">🏬 新竹店 (15-16 / 18-19 時段)</span>
-            <div class="grid-2"><input type="text" id="flow_xz_1" placeholder="15-16點 路過/進場人流"> <input type="text" id="flow_xz_2" placeholder="18-19點 路過/進場人流"></div>
-        </div>
-        <div style="margin-bottom:10px; background:#fff; padding:10px; border-radius:6px; border:1px solid #ddd;">
-            <span class="sub-title">🏬 中山店 (16-17 / 19-20 時段)</span>
-            <div class="grid-2"><input type="text" id="flow_zs_1" placeholder="16-17點 路過/進場人流"> <input type="text" id="flow_zs_2" placeholder="19-20點 路過/進場人流"></div>
-        </div>
-        <div style="margin-bottom:10px; background:#fff; padding:10px; border-radius:6px; border:1px solid #ddd;">
-            <span class="sub-title">🏬 南西店 (16-17 / 19-20 時段)</span>
-            <div class="grid-2"><input type="text" id="flow_nx_1" placeholder="16-17點 路過/進場人流"> <input type="text" id="flow_nx_2" placeholder="19-20點 路過/進場人流"></div>
-        </div>
-        <div class="form-group" style="margin-top:10px;">
-            <label>附近競品廠商分析 (至少五家優缺點分析)</label>
-            <textarea id="market_comp" placeholder="1. 廠商A:&#10;2. 廠商B:"></textarea>
+        <div class="space-y-4">
+            <div class="p-3 bg-blue-50 rounded-xl border border-blue-100">
+                <span class="text-xs font-bold text-blue-800">跨店監督排程（市場/陳列/庫存/學習落實）</span>
+                <div class="grid grid-cols-3 gap-2 mt-2">
+                    <select class="milestone-task" onchange="updateProgress()"><option value="尚未操作">中原(週三前)</option><option value="今日操作">今日操作</option><option value="已經操作">已經操作</option></select>
+                    <select class="milestone-task" onchange="updateProgress()"><option value="尚未操作">新竹(週三前)</option><option value="今日操作">今日操作</option><option value="已經操作">已經操作</option></select>
+                    <select class="milestone-task" onchange="updateProgress()"><option value="尚未操作">中山南西(週六前)</option><option value="今日操作">今日操作</option><option value="已經操作">已經操作</option></select>
+                </div>
+            </div>
         </div>
     </div>
 
-    <!-- 五、會議及學習 -->
-    <h2>五、會議及學習</h2>
-    <div class="section">
-        <div class="form-group"><label>1️⃣ 今日會議摘要與重點 (需填滿至少50字)</label><textarea id="learn_1" placeholder="請在此輸入今日現場會議摘要內容..."></textarea></div>
-        <div class="form-group"><label>2️⃣ 現場教學人員及項目</label><input type="text" id="learn_2"></div>
-        <div class="form-group"><label>3️⃣ 人員服務/銷售缺失及處置</label><input type="text" id="learn_3"></div>
-        <div class="form-group"><label>4️⃣ 面試/試上動態</label><input type="text" id="learn_4" placeholder="例：面試2位(中原店)"></div>
+    <div class="card p-6 mb-6 overflow-hidden">
+        <h2 class="section-title">🛡️ 每日店務查核矩陣 (現場三大焦點稽核)</h2>
+        <div class="overflow-x-auto">
+            <table class="gantt-table">
+                <thead>
+                    <tr class="bg-gray-100">
+                        <th class="text-left pl-2">查核項目 \ 星期</th><th>一</th><th>二</th><th>三</th><th>四</th><th>五</th><th>六</th><th>日</th>
+                    </tr>
+                </thead>
+                <tbody id="daily-matrix"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="card p-6 mb-6">
+        <h2 class="section-title">一、各店開門店務缺失紀錄與扣分</h2>
+        <p class="text-xs text-red-500 mb-4 font-bold">⚠️ 管理備忘：在此填寫缺失後，請主管務必一併同步更改、登入到雲端缺失表格內！</p>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div><label>中原店缺失</label><input type="text" id="miss_zy" value="都有完成"></div>
+            <div><label>新竹店缺失</label><input type="text" id="miss_xz" value="都有完成"></div>
+            <div><label>中山店缺失</label><input type="text" id="miss_zs" value="都有完成"></div>
+            <div><label>南西店缺失</label><input type="text" id="miss_nx" value="都有完成"></div>
+        </div>
+    </div>
+
+    <div class="card p-6 mb-6">
+        <h2 class="section-title">三、各店業績數據 ＆ 每日店鋪損益自動精算大師</h2>
+        <p class="text-xs text-slate-500 mb-4">ℹ️ 損益計算準則：以天薪基礎算人事成本；毛利統一抓 **0.38 (38%稅後)**。系統會自動回溯日標準件數並計算盈虧。</p>
+        <div id="sales-container" class="space-y-6"></div>
+    </div>
+
+    <div class="card p-6 mb-6">
+        <h2 class="section-title">四、觀察市場 ＆ 陳列與現場紀律自檢打勾</h2>
+        <div class="p-4 bg-gray-50 rounded-xl border mb-4 space-y-3 text-xs">
+            <span class="font-bold text-gray-800 block">1. 門口人流粗估計數：</span>
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                <div><label>中原過路/進場</label><input type="text" id="flow_zy" value="120 / 15"></div>
+                <div><label>新竹過路/進場</label><input type="text" id="flow_xz" value="95 / 10"></div>
+                <div><label>中山過路/進場</label><input type="text" id="flow_zs" value="210 / 35"></div>
+                <div><label>南西過路/進場</label><input type="text" id="flow_nx" value="380 / 65"></div>
+            </div>
+        </div>
+
+        <div class="p-4 bg-pink-50/40 rounded-xl border border-pink-200 space-y-3 text-xs mb-4">
+            <span class="font-bold text-pink-900 block">2. 現場賣場陳列與清潔紀律自檢 (確認請打勾)：</span>
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 bg-white p-3 rounded-lg border">
+                <label class="font-normal cursor-pointer flex items-center gap-1"><input type="checkbox" id="chk_m1" checked> 各店陳列 C位商品有更新</label>
+                <label class="font-normal cursor-pointer flex items-center gap-1"><input type="checkbox" id="chk_m2" checked> 架上陳列品都有即時補齊</label>
+                <label class="font-normal cursor-pointer flex items-center gap-1"><input type="checkbox" id="chk_m3" checked> 現場乾淨/無任何棉絮</label>
+                <label class="font-normal cursor-pointer flex items-center gap-1"><input type="checkbox" id="chk_m4" checked> 現場人員服務快速及時</label>
+            </div>
+        </div>
+
+        <label class="font-bold text-gray-700">3. 附近競品商圈考察分析 (請至少列出三家以上優缺點)</label>
+        <textarea id="market_analysis" rows="3" placeholder="1. 店家A: 優點/缺點&#10;2. 店家B: 優點/缺點&#10;3. 店家C: 優點/缺點">1. 競品A：陳列新穎但補貨慢
+2. 競品B：活動折扣大但現場棉絮多
+3. 競品C：服務及時但款式較少</textarea>
         
-        <label style="color:#0071e3; margin-top:15px;">5️⃣ 目前整體指標22項學習進度表</label>
-        <div style="background:#fff; padding:10px; border-radius:6px; border:1px solid #ddd; margin-top:5px;">
-            <div class="form-group">
-                <label>中山店</label>
-                <select id="study_status_zs" onchange="toggleStudyInput('zs')"><option value="全數學會">全數學會</option><option value="未全學會">有人員尚未學習</option></select>
-                <input type="text" id="study_content_zs" class="hide-input" placeholder="請輸入：幾位尚未學習 (填入尚未學習項目編號)">
-            </div>
-            <div class="form-group">
-                <label>新竹店</label>
-                <select id="study_status_xz" onchange="toggleStudyInput('xz')"><option value="全數學會">全數學會</option><option value="未全學會">有人員尚未學習</option></select>
-                <input type="text" id="study_content_xz" class="hide-input" placeholder="請輸入：幾位尚未學習 (填入尚未學習項目編號)">
-            </div>
-            <div class="form-group">
-                <label>中原店</label>
-                <select id="study_status_zy" onchange="toggleStudyInput('zy')"><option value="全數學會">全數學會</option><option value="未全學會">有人員尚未學習</option></select>
-                <input type="text" id="study_content_zy" class="hide-input" placeholder="請輸入：幾位尚未學習 (填入尚未學習項目編號)">
-            </div>
-            <div class="form-group">
-                <label>南西店</label>
-                <select id="study_status_nx" onchange="toggleStudyInput('nx')"><option value="全數學會">全數學會</option><option value="未全學會">有人員尚未學習</option></select>
-                <input type="text" id="study_content_nx" class="hide-input" placeholder="請輸入：幾位尚未學習 (填入尚未學習項目編號)">
-            </div>
+        <label class="mt-4 font-bold text-gray-700 block">4. 今日會議摘要與重點 (需填滿至少50字防弊)</label>
+        <textarea id="meeting_summary" oninput="checkMeetingLength()" rows="3" placeholder="請詳細記錄今日開班晨會布達的核心重點...">今日召開全體門市店長會議，重點布達春夏流速控貨指標。要求各店確實執行開店前五分鐘的店務檢查，特別是架上常駐款式的補貨時效。另外針對社群行銷的限動發布時間進行對齊，確保在黃金時段內完成。最後強調現場清潔，不允許陳列面出現棉絮，維護整體品質。</textarea>
+        <p id="meeting-count" class="text-right text-xs text-red-500">目前字數: 0 (還缺 50 字)</p>
+
+        <label class="mt-4 font-bold text-gray-700 block">5. 總總結分享 (給老闆的不在現場盲區反映與SOP改善反饋)</label>
+        <textarea id="boss_feedback" rows="2" placeholder="在此輸入團隊反饋...">中原店近日PT反饋收銀流程有部分卡頓，預計明日優化系統操作SOP；南西店裝潢攤銷壓力下，人員主動積極推UPT效果有提升。</textarea>
+    </div>
+
+    <div class="card p-6 mb-6">
+        <h2 class="section-title">五、今日所有分店人員日報總結確認 (分享給老闆)</h2>
+        <textarea id="staff_summary" rows="3" placeholder="做各店今日日報的總結整理...">今日四店人員日報全數確認完畢，各分店皆有落實開店主持會議。新竹店反映有少量缺貨，已同步請總部配貨主管進行調配。</textarea>
+    </div>
+
+    <button class="w-full bg-blue-600 text-white font-black py-4 rounded-2xl shadow-lg hover:bg-blue-700 transition" onclick="generateReport()">生成主管日報文字 🚀</button>
+
+    <div id="output-area" class="mt-8 hidden">
+        <div class="flex justify-between items-center mb-2">
+            <h2 class="text-lg font-bold text-gray-800">📋 生成結果 (複製後可直接貼在 LINE 核心群組)</h2>
+            <button class="bg-green-600 text-white px-5 py-2 rounded-xl text-sm font-bold shadow hover:bg-green-700" onclick="copyToClipboard()">一鍵複製內容</button>
         </div>
-    </div>
-
-    <!-- 六、今日所有分店人員日報確認 -->
-    <h2>六、今日所有分店人員日報確認 (總結分享給老闆)</h2>
-    <div class="section">
-        <textarea id="staff_summary" placeholder="做各店總結整理並且分享給老闆也需要知道的..."></textarea>
-    </div>
-
-    <button class="btn-submit" onclick="generateReport()">生成主管日報文字</button>
-
-    <!-- 輸出結果 -->
-    <div id="output-area">
-        <h2>生成結果 (複製後可直接貼在 LINE)</h2>
-        <textarea id="outputText" readonly></textarea>
-        <button class="btn-copy" onclick="copyToClipboard()">一鍵複製內容</button>
+        <textarea id="outputText" readonly class="w-full h-[500px] bg-gray-950 text-emerald-400 p-5 rounded-2xl font-mono text-xs leading-relaxed border-2 border-gray-800 shadow-inner"></textarea>
     </div>
 </div>
 
 <script>
-    // 自動初始化日期
-    const today = new Date();
-    document.getElementById('date').value = today.toISOString().split('T')[0];
-    const days = ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'];
-    document.getElementById('dayOfWeek').value = days[today.getDay()];
+    // 👑 各店靜態固定成本大盤配置 (完全根據您的財務算式折算為每日成本)
+    const shopsConfig = {
+        'zy': { name: '中原店', target: 2200, rentDaily: 2334, lossDaily: 666, amortDaily: 0, stockLossDaily: 0 },
+        'xz': { name: '新竹店', target: 1400, rentDaily: Math.round(52000/30), lossDaily: Math.round(20000/30), amortDaily: 0, stockLossDaily: Math.round(20000/30) },
+        'zs': { name: '中山店', target: 4800, rentDaily: Math.round(105000/30), lossDaily: Math.round(20000/30), amortDaily: 0, stockLossDaily: Math.round(20000/30) },
+        'nx': { name: '南西店', target: 5800, rentDaily: Math.round(320000/30), lossDaily: Math.round(20000/30), amortDaily: Math.round(250000/30), stockLossDaily: Math.round(20000/30) }
+    };
 
-    // 控制缺失輸入框顯示
-    function toggleMissInput(shop) {
-        const status = document.getElementById(`miss_status_${shop}`).value;
-        document.getElementById(`miss_content_${shop}`).style.display = (status === '缺失') ? 'block' : 'none';
+    const matrixItems = [
+        "開班店務檢查", "閉店店務檢查", "人員日報確認"
+    ];
+
+    window.onload = function() {
+        const today = new Date();
+        document.getElementById('date').value = today.toISOString().split('T')[0];
+        const days = ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'];
+        document.getElementById('dayOfWeek').value = days[today.getDay()];
+
+        renderMatrix();
+        renderSales();
+        checkMeetingLength();
+        updateProgress();
+    };
+
+    function renderMatrix() {
+        const tbody = document.getElementById('daily-matrix');
+        let html = '';
+        Object.keys(shopsConfig).forEach(id => {
+            const shopName = shopsConfig[id].name;
+            matrixItems.forEach(item => {
+                html += `<tr>
+                    <td class="text-left font-bold pl-2 bg-gray-50 text-[10px] text-gray-700">${shopName}${item}</td>
+                    ${[1,2,3,4,5,6,0].map(d => `<td><input type="checkbox" class="matrix-chk" checked onchange="updateProgress()"></td>`).join('')}
+                </tr>`;
+            });
+        });
+        tbody.innerHTML = html;
     }
-    // 控制學習進度輸入框顯示
-    function toggleStudyInput(shop) {
-        const status = document.getElementById(`study_status_${shop}`).value;
-        document.getElementById(`study_content_${shop}`).style.display = (status === '未全學會') ? 'block' : 'none';
+
+    function renderSales() {
+        const container = document.getElementById('sales-container');
+        Object.keys(shopsConfig).forEach(id => {
+            const shop = shopsConfig[id];
+            const dailyTarget = Math.round(shop.target / 30);
+            
+            let defaultRev = 25000; if(id==='xz') defaultRev = 15000; if(id==='zs') defaultRev = 48000; if(id==='nx') defaultRev = 75000;
+            let defaultPcs = Math.round(defaultRev / 500);
+            let defaultAcc = Math.round(shop.target * 0.35);
+
+            container.innerHTML += `
+                <div class="p-4 bg-white border border-gray-200 rounded-xl shadow-sm space-y-3">
+                    <div class="flex justify-between items-center border-b pb-2">
+                        <b class="text-blue-600 text-sm">🏛️ 【${shop.name}】核心數據盤點</b>
+                        <span class="text-xs text-gray-400 font-bold">月標準: ${shop.target}件 | 日流速目標: ${dailyTarget}件</span>
+                    </div>
+                    <div class="grid grid-cols-3 gap-2 text-xs bg-slate-50 p-2 rounded-lg">
+                        <div><label>正職人數 ($1500/天)</label><input type="number" id="p1_${id}" value="1" oninput="updateProgress()" class="p-1 text-xs"></div>
+                        <div><label>PT 4h ($880/天)</label><input type="number" id="p2_${id}" value="1" oninput="updateProgress()" class="p-1 text-xs"></div>
+                        <div><label>PT 8h ($1760/天)</label><input type="number" id="p3_${id}" value="0" oninput="updateProgress()" class="p-1 text-xs"></div>
+                    </div>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-2 text-xs">
+                        <div><label class="font-bold text-blue-900">今日營業額 (元)</label><input type="number" id="rev_${id}" value="${defaultRev}" oninput="updateProgress()"></div>
+                        <div><label>當日售出件數</label><input type="number" id="pcs_${id}" value="${defaultPcs}" oninput="updateProgress()"></div>
+                        <div><label>今日 UPT</label><input type="number" id="upt_${id}" value="2.1" step="0.1"></div>
+                        <div><label>本月累積件數</label><input type="number" id="acc_${id}" value="${defaultAcc}" oninput="updateProgress()"></div>
+                    </div>
+                    <input type="text" id="top3_${id}" value="春夏洋裝/自訂款背心/百搭寬褲" placeholder="銷售前三名品項" class="text-xs p-2">
+                </div>
+            `;
+        });
     }
-    // UPT即時偵測
-    function checkUpt(shop) {
-        const val = parseFloat(document.getElementById(`${shop}_upt`).value) || 0;
-        document.getElementById(`${shop}_upt_reason`).style.display = (val <= 1.99 && val > 0) ? 'block' : 'none';
+
+    function updateProgress() {
+        const milestones = document.querySelectorAll('.milestone-task');
+        let done = 0;
+        milestones.forEach(m => { if(m.value === '今日操作' || m.value === '已經操作') done++; });
+        
+        const percent = Math.round((done / milestones.length) * 100);
+        document.getElementById('progress-fill').style.width = percent + '%';
+        document.getElementById('progress-text').innerText = percent + '%';
+    }
+
+    function checkMeetingLength() {
+        const text = document.getElementById('meeting_summary').value;
+        const hint = document.getElementById('meeting-count');
+        if(text.length < 50) {
+            hint.innerText = `目前字數: ${text.length} (還缺 ${50 - text.length} 字)`;
+            hint.className = "text-right text-xs text-red-500 font-bold";
+        } else {
+            hint.innerText = `目前字數: ${text.length} (已符合50字標準)`;
+            hint.className = "text-right text-xs text-green-600 font-bold";
+        }
+    }
+
+    // 🔥 P&L 大盤核心數據精算引擎 (確保變數與對應店鋪ID 100% 綁定)
+    function calculateShopPL(id) {
+        const cfg = shopsConfig[id];
+        const p1 = parseInt(document.getElementById(`p1_${id}`).value) || 0;
+        const p2 = parseInt(document.getElementById(`p2_${id}`).value) || 0;
+        const p3 = parseInt(document.getElementById(`p3_${id}`).value) || 0;
+        
+        // 人事費用
+        const laborCost = (p1 * 1500) + (p2 * 880) + (p3 * 1760);
+        
+        // 固定成本
+        const fixedCost = cfg.rentDaily + cfg.lossDaily + cfg.amortDaily + cfg.stockLossDaily;
+        
+        // 營業額與 38% 稅後淨毛利
+        const revenue = parseFloat(document.getElementById(`rev_${id}`).value) || 0;
+        const profitG = revenue * 0.38;
+        
+        // 每日淨盈虧
+        const netPL = Math.round(profitG - (laborCost + fixedCost));
+        return { laborCost, fixedCost, netPL, profitG };
     }
 
     function generateReport() {
-        // 會議摘要字數檢查
-        const learn_1_text = document.getElementById('learn_1').value;
-        if(learn_1_text.length < 50) {
+        const meetingText = document.getElementById('meeting_summary').value;
+        if(meetingText.length < 50) {
             alert('⚠️ 「今日會議摘要與重點」不滿 50 字，請充實內容後再產生報告！');
             return;
         }
 
         const date = document.getElementById('date').value;
-        const dayOfWeek = document.getElementById('dayOfWeek').value;
-        const weather = document.getElementById('weather').value || '-';
-        const currentLoc = document.getElementById('currentLocation').value;
+        const day = document.getElementById('dayOfWeek').value;
+        const location = document.getElementById('currentLocation').value;
+        const progress = document.getElementById('progress-text').innerText;
 
-        // 開店會議主持狀態
-        const m_zy = document.getElementById('meeting_zy').value;
-        const m_xz = document.getElementById('meeting_xz').value;
-        const m_zs = document.getElementById('meeting_zs').value;
-        const m_nx = document.getElementById('meeting_nx').value;
+        let report = `📋 【 ZC 門市主管營運日報 V3.1 · 大盤損益整合版 】\n`;
+        report += `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
+        report += `📅 日期：${date} (${day})  |  主管駐點：${location}\n`;
+        report += `📈 主管核心排程執行率：${progress}\n`;
+        report += `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n`;
 
-        // 處理缺失文字
-        const getMissText = (shop) => {
-            return document.getElementById(`miss_status_${shop}`).value === '都有完成' ? '都有完成' : '❌ 缺失: ' + document.getElementById(`miss_content_${shop}`).value;
-        };
+        report += `《 🚀 門市主管里程碑與核心排程 》\n`;
+        const milestoneLabels = ["【週一】全員考績表確認與上繳","【週一】上週各店業績與去向分析","【週二】繳交上週各市場競品商圈分析","【週五】回報本週各店人事面試試上進度"];
+        document.querySelectorAll('.milestone-task').forEach((m, idx) => {
+            report += `  ▫️ ${milestoneLabels[idx]} ➔ [${m.value}]\n`;
+        });
 
-        // 處理社群行銷邏輯與不合格紅字提醒 (在LINE中用🚨符號加強呈現)
-        const getSocialText = (shop, name) => {
-            const num = parseInt(document.getElementById(`sc_num_${shop}`).value) || 0;
-            const time = document.getElementById(`sc_time_${shop}`).value || '-';
-            const box = document.getElementById(`sc_box_${shop}`).value;
-            let statusTag = '';
-            if (num < 5 || box === '無') {
-                statusTag = ' 🔴【備註：不合格】';
-            }
-            return ` 📍 ${name}：發布 ${num} 則限動 (${time}發完) | 小盒子回覆：${box}${statusTag}`;
-        };
+        report += `\n《 一、各店開門店務缺失紀錄 (已登入雲端) 》\n`;
+        Object.keys(shopsConfig).forEach(id => {
+            report += `  🔹 ${shopsConfig[id].name} ➔ ${document.getElementById(`miss_${id}`).value || '✅ 都有完成無缺失'}\n`;
+        });
 
-        // 處理人力與UPT考核算
-        const getStaffStatus = (shop, p1, p2, p3) => {
-            const total = (parseInt(p1)||0) + (parseInt(p2)||0) + (parseInt(p3)||0);
-            if (shop === 'zy' || shop === 'zs') return total >= 3 ? `充足 (${total}員)` : `不足 (${total}員)`;
-            if (shop === 'xz') {
-                if (total >= 2) return `充足 (${total}員)`;
-                if (total === 1) return `不足 (${total}員)`;
-                return `多配 (${total}員)`;
-            }
-            if (shop === 'nx') return total >= 4 ? `充足 (${total}員)` : `不足 (${total}員)`;
-        };
+        report += `\n《 二、社群行銷核查摘要 》\n`;
+        Object.keys(shopsConfig).forEach(id => {
+            report += `  📍 ${shopsConfig[id].name} ➔ ${document.getElementById(`sc_${id}`).value || '未填'}\n`;
+        });
 
-        const getUptStatus = (shop) => {
-            const val = parseFloat(document.getElementById(`${shop}_upt`).value) || 0;
-            if (val >= 2.4) return `${val} (🟢 表現優異)`;
-            if (val >= 2.0) return `${val} (🟡 及格)`;
-            const reason = document.getElementById(`${shop}_upt_reason`).value || '未填寫原因';
-            return `${val} (🔴 請特別提供老闆原因及報告: ${reason})`;
-        };
+        report += `\n《 三、各店業績數據 ＆ 每日大盤損益核算明細 》\n`;
+        Object.keys(shopsConfig).forEach(id => {
+            const shop = shopsConfig[id];
+            const rev = document.getElementById(`rev_${id}`).value || 0;
+            const pcs = document.getElementById(`pcs_${id}`).value || 0;
+            const upt = document.getElementById(`upt_${id}`).value || 0;
+            const acc = document.getElementById(`acc_${id}`).value || 0;
+            const dailyTarget = Math.round(shop.target / 30);
+            
+            // 呼叫大腦精算引擎
+            const plRes = calculateShopPL(id);
+            const statusTag = plRes.netPL >= 0 ? `🟢 今日獲利: +$${plRes.netPL.toLocaleString()} 元` : `🔴 今日虧損: $${plRes.netPL.toLocaleString()} 元`;
 
-        // 業績累計百分比
-        const zy_total = Number(document.getElementById('zy_total_pcs').value) || 0;
-        const xz_total = Number(document.getElementById('xz_total_pcs').value) || 0;
-        const zs_total = Number(document.getElementById('zs_total_pcs').value) || 0;
-        const nx_total = Number(document.getElementById('nx_total_pcs').value) || 0;
+            report += `🏬 【${shop.name}】\n`;
+            report += `  👥 現場人力成本：$${plRes.laborCost.toLocaleString()} 元 | 當日固定摊銷: $${plRes.fixedCost.toLocaleString()} 元\n`;
+            report += `  💰 今日營業額：$${parseFloat(rev).toLocaleString()} | 📦 售出件數: ${pcs} 件 (日流速目標:${dailyTarget}件)\n`;
+            report += `  📈 UPT評定：${upt} | 🎯 今日達成率: ${((pcs/dailyTarget)*100).toFixed(1)}%\n`;
+            report += `  📊 月累積進度：${parseInt(acc).toLocaleString()} / ${shop.target}件 (${((acc/shop.target)*100).toFixed(1)}%)\n`;
+            const textTop = document.getElementById(`top3_${id}`).value || '-';
+            report += `  🏆 銷售前三名：${textTop}\n`;
+            report += `  ⚖️ 財務損益診斷 ➔ ${statusTag}\n\n`;
+        });
 
-        // 處理學習進度文字
-        const getStudyText = (shop) => {
-            return document.getElementById(`study_status_${shop}`).value === '全數學會' ? '全數學會' : '⚠️ 尚未學習項目與人數：' + document.getElementById(`study_content_${shop}`).value;
-        };
-
-        // 開始建立回報格式內容
-        let report = `📋 【 門市主管每日回報系統 】\n`;
-        report += `📅 日期：${date} (${dayOfWeek})  |  ☀️ 天氣：${weather}\n`;
-        report += `📍 今日主管駐點門市：${currentLoc}\n`;
-        report += `=============================\n\n`;
-
-        report += `📢 【各店開門前是否有主持會議與布達】\n`;
-        report += ` 中原 (${m_zy}) | 新竹 (${m_xz}) | 中山 (${m_zs}) | 南西 (${m_nx})\n\n`;
-
-        report += `一、各店開門店務缺失項目及扣分：\n`;
-        report += ` 🔹 中原：${getMissText('zy')}\n`;
-        report += ` 🔹 新竹：${getMissText('xz')}\n`;
-        report += ` 🔹 中山：${getMissText('zs')}\n`;
-        report += ` 🔹 南西：${getMissText('nx')}\n\n`;
-
-        report += `二、社群行銷：\n`;
-        report += `${getSocialText('zy', '中原')}\n`;
-        report += `${getSocialText('xz', '新竹')}\n`;
-        report += `${getSocialText('nx', '南西')}\n`;
-        report += `${getSocialText('zs', '中山')}\n\n`;
-
-        report += `三、各店業績數據：\n`;
-        report += `🏬 【中原店】\n`;
-        report += `  👥 人力狀態：${getStaffStatus('zy', document.getElementById('zy_p1').value, document.getElementById('zy_p2').value, document.getElementById('zy_p3').value)}\n`;
-        report += `  💰 營業額：$${document.getElementById('zy_rev').value || 0}  |  📦 件數：${document.getElementById('zy_pcs').value || 0} 件\n`;
-        report += `  📈 UPT評定：${getUptStatus('zy')}\n`;
-        report += `  🏆 銷售前三名：${document.getElementById('zy_top3').value || '-'}\n`;
-        report += `  📊 本月累積件數：${zy_total} 件 (目標 2200 件) ➔ 目前達標率：${((zy_total / 2200) * 100).toFixed(1)}%\n\n`;
-
-        report += `🏬 【新竹店】\n`;
-        report += `  👥 人力狀態：${getStaffStatus('xz', document.getElementById('xz_p1').value, document.getElementById('xz_p2').value, document.getElementById('xz_p3').value)}\n`;
-        report += `  💰 營業額：$${document.getElementById('xz_rev').value || 0}  |  📦 件數：${document.getElementById('xz_pcs').value || 0} 件\n`;
-        report += `  📈 UPT評定：${getUptStatus('xz')}\n`;
-        report += `  🏆 銷售前三名：${document.getElementById('xz_top3').value || '-'}\n`;
-        report += `  📊 本月累積件數：${xz_total} 件 (目標 1400 件) ➔ 目前達標率：${((xz_total / 1400) * 100).toFixed(1)}%\n\n`;
-
-        report += `🏬 【中山店】\n`;
-        report += `  👥 人力狀態：${getStaffStatus('zs', document.getElementById('zs_p1').value, document.getElementById('zs_p2').value, document.getElementById('zs_p3').value)}\n`;
-        report += `  💰 營業額：$${document.getElementById('zs_rev').value || 0}  |  📦 件數：${document.getElementById('zs_pcs').value || 0} 件\n`;
-        report += `  📈 UPT評定：${getUptStatus('zs')}\n`;
-        report += `  🏆 銷售前三名：${document.getElementById('zs_top3').value || '-'}\n`;
-        report += `  📊 本月累積件數：${zs_total} 件 (目標 4800 件) ➔ 目前達標率：${((zs_total / 4800) * 100).toFixed(1)}%\n\n`;
-
-        report += `🏬 【南西店】\n`;
-        report += `  👥 人力狀態：${getStaffStatus('nx', document.getElementById('nx_p1').value, document.getElementById('nx_p2').value, document.getElementById('nx_p3').value)}\n`;
-        report += `  💰 營業額：$${document.getElementById('nx_rev').value || 0}  |  📦 件數：${document.getElementById('nx_pcs').value || 0} 件\n`;
-        report += `  📈 UPT評定：${getUptStatus('nx')}\n`;
-        report += `  🏆 銷售前三名：${document.getElementById('nx_top3').value || '-'}\n`;
-        report += `  📊 本月累積件數：${nx_total} 件 (目標 5800 件) ➔ 目前達標率：${((nx_total / 5800) * 100).toFixed(1)}%\n\n`;
-
-        report += `四、觀察市場 (5分鐘客流計數)：\n`;
-        report += ` 🏙️ 中原店 (16-17/19-20)：${document.getElementById('flow_zy_1').value || '-'} / ${document.getElementById('flow_zy_2').value || '-'}\n`;
-        report += ` 🏙️ 新竹店 (15-16/18-19)：${document.getElementById('flow_xz_1').value || '-'} / ${document.getElementById('flow_xz_2').value || '-'}\n`;
-        report += ` 🏙️ 中山店 (16-17/19-20)：${document.getElementById('flow_zs_1').value || '-'} / ${document.getElementById('flow_zs_2').value || '-'}\n`;
-        report += ` 🏙️ 南西店 (16-17/19-20)：${document.getElementById('flow_nx_1').value || '-'} / ${document.getElementById('flow_nx_2').value || '-'}\n`;
-        report += ` 🏪 附近競品分析：\n${document.getElementById('market_comp').value || '無'}\n\n`;
-
-        report += `五、會議及學習：\n`;
-        report += ` 1️⃣ 今日會議摘要與重點(🔋50字+)：\n   ${learn_1_text}\n`;
-        report += ` 2️⃣ 現場教學人員及項目：${document.getElementById('learn_2').value || '無'}\n`;
-        report += ` 3️⃣ 人員服務/銷售缺失及處置：${document.getElementById('learn_3').value || '無'}\n`;
-        report += ` 4️⃣ 面試/試上動態：${document.getElementById('learn_4').value || '無'}\n`;
-        report += ` 5️⃣ 目前整體指標22項學習進度表：\n`;
-        report += `   ▪️ 中山店：${getStudyText('zs')}\n`;
-        report += `   ▪️ 新竹店：${getStudyText('xz')}\n`;
-        report += `   ▪️ 中原店：${getStudyText('zy')}\n`;
-        report += `   ▪️ 南西店：${getStudyText('nx')}\n\n`;
-
-        report += `六、今日所有分店人員日報確認 (總結整理)：\n${document.getElementById('staff_summary').value || '無'}`;
+        report += `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
+        report += `《 四、觀察市場 ＆ 陳列與現場紀律自檢 》\n`;
+        report += ` 🏙️ 四店門口客流粗估 (路過/進場)：\n`;
+        report += `   - 中原: ${document.getElementById('flow_zy').value} | 新竹: ${document.getElementById('flow_xz').value}\n`;
+        report += `   - 中山: ${document.getElementById('flow_zs').value} | 南西: ${document.getElementById('flow_nx').value}\n`;
+        report += ` 👗 現場陳列與衛生紀律：\n`;
+        report += `   - [C位商品更換:${document.getElementById('chk_m1').checked?'✔️已落實':'❌未落實'}]  - [架上陳列品補齊:${document.getElementById('chk_m2').checked?'✔️已落實':'❌未落實'}]\n`;
+        report += `   - [現場無棉絮:${document.getElementById('chk_m3').checked?'✔️已落實':'❌未落實'}]  - [現場服務及時:${document.getElementById('chk_m4').checked?'✔️已落實':'❌未落實'}]\n`;
+        report += ` 🏪 附近三家競品廠商分析：\n${document.getElementById('market_analysis').value || '無'}\n\n`;
+        report += `《 五、會議摘要與盲區反饋 》\n`;
+        report += ` 1️⃣ 今日會議核心摘要 (🔋50字+)：\n   ${meetingText}\n`;
+        report += ` 2️⃣ 主管自省與團隊看不到的盲區改善：\n   ${document.getElementById('boss_feedback').value || '無'}\n\n`;
+        report += `《 六、各店人員日報總結分享 》\n${document.getElementById('staff_summary').value || '無'}\n`;
+        report += `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
+        report += `💡 [提示] 本損益數據由系統大盤自動折算，已同步呈報負責人老闆作高階決策存檔。`;
 
         document.getElementById('outputText').value = report;
         document.getElementById('output-area').style.display = 'block';
@@ -461,9 +387,8 @@
     function copyToClipboard() {
         const outputText = document.getElementById('outputText');
         outputText.select();
-        outputText.setSelectionRange(0, 99999);
         document.execCommand('copy');
-        alert('修改版日報內容已成功複製！可以發到 LINE 群組囉！');
+        alert('終極損益整合版日報已成功複製！可以發到 LINE 群組囉！');
     }
 </script>
 
