@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ZC 門市主管營運日報系統 V3.1</title>
+    <title>ZC 門市主管營運日報系統 V3.2</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body { 
@@ -40,157 +40,157 @@
 
 <div class="max-w-4xl mx-auto">
     <header class="text-center mb-8">
-        <h1 class="text-3xl font-bold text-gray-900 tracking-tight">門市主管每日回報系統 V3.1</h1>
+        <h1 class="text-3xl font-bold text-gray-900 tracking-tight">門市主管每日回報系統 V3.2</h1>
         <p class="text-gray-500 mt-2">Zebra Crossing Management System · 店鋪利潤中心每日損益完全體</p>
     </header>
 
-    <div class="card p-6 mb-6">
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <div><label>日期</label><input type="date" id="date"></div>
-            <div>
-                <label>星期</label>
-                <select id="dayOfWeek">
-                    <option value="星期一">星期一</option><option value="星期二">星期二</option>
-                    <option value="星期三">星期三</option><option value="星期四">星期四</option>
-                    <option value="星期五">星期五</option><option value="星期六">星期六</option>
-                    <option value="星期日">星期日</option>
-                </select>
-            </div>
-            <div><label>今日天氣</label><input type="text" id="weather" placeholder="例：晴天"></div>
-            <div>
-                <label>主管駐點門市</label>
-                <select id="currentLocation">
-                    <option value="總部">總部</option><option value="中原">中原</option>
-                    <option value="新竹">新竹</option><option value="中山">中山</option>
-                    <option value="南西">南西</option><option value="中山南西">中山南西</option>
-                    <option value="新竹中原">新竹中原</option><option value="總部中山">總部中山</option>
-                    <option value="放假">放假</option>
-                </select>
-            </div>
-        </div>
-    </div>
-
-    <div class="card p-6 mb-6">
-        <div class="flex justify-between items-center mb-4">
-            <h2 class="section-title">📊 管理進度與里程碑 (執行率：<span id="progress-text">0%</span>)</h2>
-        </div>
-        <div class="progress-bar mb-6"><div id="progress-fill" class="progress-fill" style="width: 0%;"></div></div>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-            <div class="task-item bg-gray-50 p-3 rounded-xl border border-gray-100">
-                <label class="text-xs text-blue-600 font-bold">【週一】全員考績表確認與上繳</label>
-                <select class="milestone-task" onchange="updateProgress()"><option value="尚未操作">尚未操作</option><option value="今日操作">今日操作</option><option value="已經操作">已經操作</option></select>
-            </div>
-            <div class="task-item bg-gray-50 p-3 rounded-xl border border-gray-100">
-                <label class="text-xs text-blue-600 font-bold">【週一】回報上週各店業績與去向分析</label>
-                <select class="milestone-task" onchange="updateProgress()"><option value="尚未操作">尚未操作</option><option value="今日操作">今日操作</option><option value="已經操作">已經操作</option></select>
-            </div>
-            <div class="task-item bg-gray-50 p-3 rounded-xl border border-gray-100">
-                <label class="text-xs text-blue-600 font-bold">【週二】繳交上週各市場競品商圈分析</label>
-                <select class="milestone-task" onchange="updateProgress()"><option value="尚未操作">尚未操作</option><option value="今日操作">今日操作</option><option value="已經操作">已經操作</option></select>
-            </div>
-            <div class="task-item bg-gray-50 p-3 rounded-xl border border-gray-100">
-                <label class="text-xs text-blue-600 font-bold">【週五】回報本週各店人事面試試上進度</label>
-                <select class="milestone-task" onchange="updateProgress()"><option value="尚未操作">尚未操作</option><option value="今日操作">今日操作</option><option value="已經操作">已經操作</option></select>
-            </div>
-        </div>
-
-        <div class="space-y-4">
-            <div class="p-3 bg-blue-50 rounded-xl border border-blue-100">
-                <span class="text-xs font-bold text-blue-800">跨店監督排程（市場/陳列/庫存/學習落實）</span>
-                <div class="grid grid-cols-3 gap-2 mt-2">
-                    <select class="milestone-task" onchange="updateProgress()"><option value="尚未操作">中原(週三前)</option><option value="今日操作">今日操作</option><option value="已經操作">已經操作</option></select>
-                    <select class="milestone-task" onchange="updateProgress()"><option value="尚未操作">新竹(週三前)</option><option value="今日操作">今日操作</option><option value="已經操作">已經操作</option></select>
-                    <select class="milestone-task" onchange="updateProgress()"><option value="尚未操作">中山南西(週六前)</option><option value="今日操作">今日操作</option><option value="已經操作">已經操作</option></select>
+    <form id="hqForm">
+        <div class="card p-6 mb-6">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div><label>日期</label><input type="date" id="date" name="date"></div>
+                <div>
+                    <label>星期</label>
+                    <select id="dayOfWeek" name="weekday">
+                        <option value="星期一">星期一</option><option value="星期二">星期二</option>
+                        <option value="星期三">星期三</option><option value="星期四">星期四</option>
+                        <option value="星期五">星期五</option><option value="星期六">星期六</option>
+                        <option value="星期日">星期日</option>
+                    </select>
+                </div>
+                <div><label>今日天氣</label><input type="text" id="weather" name="weather" placeholder="例：晴天"></div>
+                <div>
+                    <label>主管駐點門市</label>
+                    <select id="currentLocation" name="currentLocation">
+                        <option value="總部">總部</option><option value="中原">中原</option>
+                        <option value="新竹">新竹</option><option value="中山">中山</option>
+                        <option value="南西">南西</option><option value="中山南西">中山南西</option>
+                        <option value="新竹中原">新竹中原</option><option value="總部中山">總部中山</option>
+                        <option value="放假">放假</option>
+                    </select>
                 </div>
             </div>
         </div>
-    </div>
 
-    <div class="card p-6 mb-6 overflow-hidden">
-        <h2 class="section-title">🛡️ 每日店務查核矩陣 (現場三大焦點稽核)</h2>
-        <div class="overflow-x-auto">
-            <table class="gantt-table">
-                <thead>
-                    <tr class="bg-gray-100">
-                        <th class="text-left pl-2">查核項目 \ 星期</th><th>一</th><th>二</th><th>三</th><th>四</th><th>五</th><th>六</th><th>日</th>
-                    </tr>
-                </thead>
-                <tbody id="daily-matrix"></tbody>
-            </table>
-        </div>
-    </div>
+        <div class="card p-6 mb-6">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="section-title">📊 管理進度與里程碑 (執行率：<span id="progress-text">0%</span>)</h2>
+            </div>
+            <div class="progress-bar mb-6"><div id="progress-fill" class="progress-fill" style="width: 0%;"></div></div>
 
-    <div class="card p-6 mb-6">
-        <h2 class="section-title">一、各店開門店務缺失紀錄與扣分</h2>
-        <p class="text-xs text-red-500 mb-4 font-bold">⚠️ 管理備忘：在此填寫缺失後，請主管務必一併同步更改、登入到雲端缺失表格內！</p>
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div><label>中原店缺失</label><input type="text" id="miss_zy" value="都有完成"></div>
-            <div><label>新竹店缺失</label><input type="text" id="miss_xz" value="都有完成"></div>
-            <div><label>中山店缺失</label><input type="text" id="miss_zs" value="都有完成"></div>
-            <div><label>南西店缺失</label><input type="text" id="miss_nx" value="都有完成"></div>
-        </div>
-    </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                <div class="task-item bg-gray-50 p-3 rounded-xl border border-gray-100">
+                    <label class="text-xs text-blue-600 font-bold">【週一】全員考績表確認與上繳</label>
+                    <select class="milestone-task" name="task_kpi" onchange="updateProgress()"><option value="尚未操作">尚未操作</option><option value="今日操作">今日操作</option><option value="已經操作">已經操作</option></select>
+                </div>
+                <div class="task-item bg-gray-50 p-3 rounded-xl border border-gray-100">
+                    <label class="text-xs text-blue-600 font-bold">【週一】回報上週各店業績與去向分析</label>
+                    <select class="milestone-task" name="task_sales_analysis" onchange="updateProgress()"><option value="尚未操作">尚未操作</option><option value="今日操作">今日操作</option><option value="已經操作">已經操作</option></select>
+                </div>
+                <div class="task-item bg-gray-50 p-3 rounded-xl border border-gray-100">
+                    <label class="text-xs text-blue-600 font-bold">【週二】繳交上週各市場競品商圈分析</label>
+                    <select class="milestone-task" name="task_market_comp" onchange="updateProgress()"><option value="尚未操作">尚未操作</option><option value="今日操作">今日操作</option><option value="已經操作">已經操作</option></select>
+                </div>
+                <div class="task-item bg-gray-50 p-3 rounded-xl border border-gray-100">
+                    <label class="text-xs text-blue-600 font-bold">【週五】回報本週各店人事面試試上進度</label>
+                    <select class="milestone-task" name="task_hr_progress" onchange="updateProgress()"><option value="尚未操作">尚未操作</option><option value="今日操作">今日操作</option><option value="已經操作">已經操作</option></select>
+                </div>
+            </div>
 
-    <div class="card p-6 mb-6">
-        <h2 class="section-title">三、各店業績數據 ＆ 每日店鋪損益自動精算大師</h2>
-        <p class="text-xs text-slate-500 mb-4">ℹ️ 損益計算準則：以天薪基礎算人事成本；毛利統一抓 **0.38 (38%稅後)**。系統會自動回溯日標準件數並計算盈虧。</p>
-        <div id="sales-container" class="space-y-6"></div>
-    </div>
-
-    <div class="card p-6 mb-6">
-        <h2 class="section-title">四、觀察市場 ＆ 陳列與現場紀律自檢打勾</h2>
-        <div class="p-4 bg-gray-50 rounded-xl border mb-4 space-y-3 text-xs">
-            <span class="font-bold text-gray-800 block">1. 門口人流粗估計數：</span>
-            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
-                <div><label>中原過路/進場</label><input type="text" id="flow_zy" value="120 / 15"></div>
-                <div><label>新竹過路/進場</label><input type="text" id="flow_xz" value="95 / 10"></div>
-                <div><label>中山過路/進場</label><input type="text" id="flow_zs" value="210 / 35"></div>
-                <div><label>南西過路/進場</label><input type="text" id="flow_nx" value="380 / 65"></div>
+            <div class="space-y-4">
+                <div class="p-3 bg-blue-50 rounded-xl border border-blue-100">
+                    <span class="text-xs font-bold text-blue-800">跨店監督排程（市場/陳列/庫存/學習落實）</span>
+                    <div class="grid grid-cols-3 gap-2 mt-2">
+                        <select class="milestone-task" name="task_chk_zy" onchange="updateProgress()"><option value="尚未操作">中原(週三前)</option><option value="今日操作">今日操作</option><option value="已經操作">已經操作</option></select>
+                        <select class="milestone-task" name="task_chk_xz" onchange="updateProgress()"><option value="尚未操作">新竹(週三前)</option><option value="今日操作">今日操作</option><option value="已經操作">已經操作</option></select>
+                        <select class="milestone-task" name="task_chk_nx" onchange="updateProgress()"><option value="尚未操作">中山南西(週六前)</option><option value="今日操作">今日操作</option><option value="已經操作">已經操作</option></select>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <div class="p-4 bg-pink-50/40 rounded-xl border border-pink-200 space-y-3 text-xs mb-4">
-            <span class="font-bold text-pink-900 block">2. 現場賣場陳列與清潔紀律自檢 (確認請打勾)：</span>
-            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 bg-white p-3 rounded-lg border">
-                <label class="font-normal cursor-pointer flex items-center gap-1"><input type="checkbox" id="chk_m1" checked> 各店陳列 C位商品有更新</label>
-                <label class="font-normal cursor-pointer flex items-center gap-1"><input type="checkbox" id="chk_m2" checked> 架上陳列品都有即時補齊</label>
-                <label class="font-normal cursor-pointer flex items-center gap-1"><input type="checkbox" id="chk_m3" checked> 現場乾淨/無任何棉絮</label>
-                <label class="font-normal cursor-pointer flex items-center gap-1"><input type="checkbox" id="chk_m4" checked> 現場人員服務快速及時</label>
+        <div class="card p-6 mb-6 overflow-hidden">
+            <h2 class="section-title">🛡️ 每日店務查核矩陣 (現場三大焦點稽核)</h2>
+            <div class="overflow-x-auto">
+                <table class="gantt-table">
+                    <thead>
+                        <tr class="bg-gray-100">
+                            <th class="text-left pl-2">查核項目 \ 星期</th><th>一</th><th>二</th><th>三</th><th>四</th><th>五</th><th>六</th><th>日</th>
+                        </tr>
+                    </thead>
+                    <tbody id="daily-matrix"></tbody>
+                </table>
             </div>
         </div>
 
-        <label class="font-bold text-gray-700">3. 附近競品商圈考察分析 (請至少列出三家以上優缺點)</label>
-        <textarea id="market_analysis" rows="3" placeholder="1. 店家A: 優點/缺點&#10;2. 店家B: 優點/缺點&#10;3. 店家C: 優點/缺點">1. 競品A：陳列新穎但補貨慢
-2. 競品B：活動折扣大但現場棉絮多
-3. 競品C：服務及時但款式較少</textarea>
-        
-        <label class="mt-4 font-bold text-gray-700 block">4. 今日會議摘要與重點 (需填滿至少50字防弊)</label>
-        <textarea id="meeting_summary" oninput="checkMeetingLength()" rows="3" placeholder="請詳細記錄今日開班晨會布達的核心重點...">今日召開全體門市店長會議，重點布達春夏流速控貨指標。要求各店確實執行開店前五分鐘的店務檢查，特別是架上常駐款式的補貨時效。另外針對社群行銷的限動發布時間進行對齊，確保在黃金時段內完成。最後強調現場清潔，不允許陳列面出現棉絮，維護整體品質。</textarea>
-        <p id="meeting-count" class="text-right text-xs text-red-500">目前字數: 0 (還缺 50 字)</p>
-
-        <label class="mt-4 font-bold text-gray-700 block">5. 總總結分享 (給老闆的不在現場盲區反映與SOP改善反饋)</label>
-        <textarea id="boss_feedback" rows="2" placeholder="在此輸入團隊反饋...">中原店近日PT反饋收銀流程有部分卡頓，預計明日優化系統操作SOP；南西店裝潢攤銷壓力下，人員主動積極推UPT效果有提升。</textarea>
-    </div>
-
-    <div class="card p-6 mb-6">
-        <h2 class="section-title">五、今日所有分店人員日報總結確認 (分享給老闆)</h2>
-        <textarea id="staff_summary" rows="3" placeholder="做各店今日日報的總結整理...">今日四店人員日報全數確認完畢，各分店皆有落實開店主持會議。新竹店反映有少量缺貨，已同步請總部配貨主管進行調配。</textarea>
-    </div>
-
-    <button class="w-full bg-blue-600 text-white font-black py-4 rounded-2xl shadow-lg hover:bg-blue-700 transition" onclick="generateReport()">生成主管日報文字 🚀</button>
-
-    <div id="output-area" class="mt-8 hidden">
-        <div class="flex justify-between items-center mb-2">
-            <h2 class="text-lg font-bold text-gray-800">📋 生成結果 (複製後可直接貼在 LINE 核心群組)</h2>
-            <button class="bg-green-600 text-white px-5 py-2 rounded-xl text-sm font-bold shadow hover:bg-green-700" onclick="copyToClipboard()">一鍵複製內容</button>
+        <div class="card p-6 mb-6">
+            <h2 class="section-title">一、各店開門店務缺失紀錄與扣分</h2>
+            <p class="text-xs text-red-500 mb-4 font-bold">⚠️ 管理備忘：在此填寫缺失後，請主管務必一併同步更改、登入到雲端缺失表格內！</p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div><label>中原店缺失</label><input type="text" id="miss_zy" name="miss_zy" value="都有完成"></div>
+                <div><label>新竹店缺失</label><input type="text" id="miss_xz" name="miss_xz" value="都有完成"></div>
+                <div><label>中山店缺失</label><input type="text" id="miss_zs" name="miss_zs" value="都有完成"></div>
+                <div><label>南西店缺失</label><input type="text" id="miss_nx" name="miss_nx" value="都有完成"></div>
+            </div>
         </div>
-        <textarea id="outputText" readonly class="w-full h-[500px] bg-gray-950 text-emerald-400 p-5 rounded-2xl font-mono text-xs leading-relaxed border-2 border-gray-800 shadow-inner"></textarea>
-    </div>
+
+        <div class="card p-6 mb-6">
+            <h2 class="section-title">三、各店業績數據 ＆ 每日店鋪損益自動精算大師</h2>
+            <p class="text-xs text-slate-500 mb-4">ℹ️ 損益計算準則：以天薪基礎算人事成本；毛利統一抓 **0.38 (38%稅後)**。系統會自動回溯日標準件數並計算盈虧。</p>
+            <div id="sales-container" class="space-y-6"></div>
+        </div>
+
+        <div class="card p-6 mb-6">
+            <h2 class="section-title">四、觀察市場 ＆ 陳列與現場紀律自檢打勾</h2>
+            <div class="p-4 bg-gray-50 rounded-xl border mb-4 space-y-3 text-xs">
+                <span class="font-bold text-gray-800 block">1. 門口人流粗估計數：</span>
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                    <div><label>中原過路/進場</label><input type="text" id="flow_zy" name="flow_zy" value="120 / 15"></div>
+                    <div><label>新竹過路/進場</label><input type="text" id="flow_xz" name="flow_xz" value="95 / 10"></div>
+                    <div><label>中山過路/進場</label><input type="text" id="flow_zs" name="flow_zs" value="210 / 35"></div>
+                    <div><label>南西過路/進場</label><input type="text" id="flow_nx" name="flow_nx" value="380 / 65"></div>
+                </div>
+            </div>
+
+            <div class="p-4 bg-pink-50/40 rounded-xl border border-pink-200 space-y-3 text-xs mb-4">
+                <span class="font-bold text-pink-900 block">2. 現場賣場陳列與清潔紀律自檢 (確認請打勾)：</span>
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 bg-white p-3 rounded-lg border">
+                    <label class="font-normal cursor-pointer flex items-center gap-1"><input type="checkbox" id="chk_m1" checked> 各店陳列 C位商品有更新</label>
+                    <label class="font-normal cursor-pointer flex items-center gap-1"><input type="checkbox" id="chk_m2" checked> 架上陳列品都有即時補齊</label>
+                    <label class="font-normal cursor-pointer flex items-center gap-1"><input type="checkbox" id="chk_m3" checked> 現場乾淨/無 any 棉絮</label>
+                    <label class="font-normal cursor-pointer flex items-center gap-1"><input type="checkbox" id="chk_m4" checked> 現場人員服務快速及時</label>
+                </div>
+            </div>
+
+            <label class="font-bold text-gray-700">3. 附近競品商圈考察分析 (請至少列出三家以上優缺點)</label>
+            <textarea id="market_analysis" name="market_analysis" rows="3" placeholder="優缺點分析">1. 競品A：陳列新穎但補貨慢&#10;2. 競品B：活動折扣大但現場棉絮多&#10;3. 競品C：服務及時但款式較少</textarea>
+            
+            <label class="mt-4 font-bold text-gray-700 block">4. 今日會議摘要與重點 (需填滿至少50字防弊)</label>
+            <textarea id="meeting_summary" name="meeting_summary" oninput="checkMeetingLength()" rows="3" placeholder="請詳細記錄今日會議...">今日召開全體門市店長會議，重點布達春夏流速控貨指標。要求各店確實執行開店前五分鐘的店務檢查，特別是架上常駐款式的補貨時效。另外針對社群行銷的限動發布時間進行對齊，確保在黃金時段內完成。最後強調現場清潔，不允許陳列面出現棉絮，維護整體品質。</textarea>
+            <p id="meeting-count" class="text-right text-xs text-red-500">目前字數: 0 (還缺 50 字)</p>
+
+            <label class="mt-4 font-bold text-gray-700 block">5. 總總結分享 (給老闆的不在現場盲區反映與SOP改善反饋)</label>
+            <textarea id="boss_feedback" name="boss_feedback" rows="2" placeholder="在此輸入團隊反饋...">中原店近日PT反饋收銀流程有部分卡頓，預計明日優化系統操作SOP；南西店裝潢攤銷壓力下，人員主動積極推UPT效果有提升。</textarea>
+        </div>
+
+        <div class="card p-6 mb-6">
+            <h2 class="section-title">五、今日所有分店人員日報總結確認 (分享給老闆)</h2>
+            <textarea id="staff_summary" name="staff_summary" rows="3" placeholder="總結整理...">今日四店人員日報全數確認完畢，各分店皆有落實開店主持會議。新竹店反映有少量缺貨，已同步請總部配貨主管進行調配。</textarea>
+        </div>
+
+        <button type="submit" class="w-full bg-blue-600 text-white font-black py-4 rounded-2xl shadow-lg hover:bg-blue-700 transition">生成主管日報文字 🚀</button>
+
+        <div id="output-area" class="mt-8 hidden">
+            <div class="flex justify-between items-center mb-2">
+                <h2 class="text-lg font-bold text-gray-800">📋 生成結果 (複製後可直接貼在 LINE 核心群組)</h2>
+                <button type="button" class="bg-green-600 text-white px-5 py-2 rounded-xl text-sm font-bold shadow hover:bg-green-700" onclick="copyToClipboard()">一鍵複製內容</button>
+            </div>
+            <textarea id="outputText" readonly class="w-full h-[500px] bg-gray-950 text-emerald-400 p-5 rounded-2xl font-mono text-xs leading-relaxed border-2 border-gray-800 shadow-inner"></textarea>
+        </div>
+    </form>
 </div>
 
 <script>
-    // 👑 各店靜態固定成本大盤配置 (完全根據您的財務算式折算為每日成本)
+    // 各店靜態固定成本大盤配置
     const shopsConfig = {
         'zy': { name: '中原店', target: 2200, rentDaily: 2334, lossDaily: 666, amortDaily: 0, stockLossDaily: 0 },
         'xz': { name: '新竹店', target: 1400, rentDaily: Math.round(52000/30), lossDaily: Math.round(20000/30), amortDaily: 0, stockLossDaily: Math.round(20000/30) },
@@ -284,27 +284,30 @@
         }
     }
 
-    // 🔥 P&L 大盤核心數據精算引擎 (確保變數與對應店鋪ID 100% 綁定)
     function calculateShopPL(id) {
         const cfg = shopsConfig[id];
         const p1 = parseInt(document.getElementById(`p1_${id}`).value) || 0;
         const p2 = parseInt(document.getElementById(`p2_${id}`).value) || 0;
         const p3 = parseInt(document.getElementById(`p3_${id}`).value) || 0;
         
-        // 人事費用
         const laborCost = (p1 * 1500) + (p2 * 880) + (p3 * 1760);
-        
-        // 固定成本
         const fixedCost = cfg.rentDaily + cfg.lossDaily + cfg.amortDaily + cfg.stockLossDaily;
-        
-        // 營業額與 38% 稅後淨毛利
         const revenue = parseFloat(document.getElementById(`rev_${id}`).value) || 0;
         const profitG = revenue * 0.38;
         
-        // 每日淨盈虧
-        const netPL = Math.round(profitG - (laborCost + fixedCost));
-        return { laborCost, fixedCost, netPL, profitG };
+        return {
+            laborCost,
+            fixedCost,
+            netPL: Math.round(profitG - (laborCost + fixedCost))
+        };
     }
+
+    // 修正核心：監聽正確的表單 ID "hqForm"，確保送出按鈕能完整執行並產出文字報告
+    const form = document.getElementById('hqForm');
+    form.addEventListener('submit', e => {
+        e.preventDefault();
+        generateReport();
+    });
 
     function generateReport() {
         const meetingText = document.getElementById('meeting_summary').value;
@@ -318,7 +321,7 @@
         const location = document.getElementById('currentLocation').value;
         const progress = document.getElementById('progress-text').innerText;
 
-        let report = `📋 【 ZC 門市主管營運日報 V3.1 · 大盤損益整合版 】\n`;
+        let report = `📋 【 ZC 門市主管營運日報 V3.2 · 大盤損益整合版 】\n`;
         report += `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
         report += `📅 日期：${date} (${day})  |  主管駐點：${location}\n`;
         report += `📈 主管核心排程執行率：${progress}\n`;
@@ -349,7 +352,6 @@
             const acc = document.getElementById(`acc_${id}`).value || 0;
             const dailyTarget = Math.round(shop.target / 30);
             
-            // 呼叫大腦精算引擎
             const plRes = calculateShopPL(id);
             const statusTag = plRes.netPL >= 0 ? `🟢 今日獲利: +$${plRes.netPL.toLocaleString()} 元` : `🔴 今日虧損: $${plRes.netPL.toLocaleString()} 元`;
 
