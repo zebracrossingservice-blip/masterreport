@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ZC 門市主管營運日報系統 V3.2</title>
+    <title>ZC 門市主管營運日報系統 V3.3</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body { 
@@ -40,8 +40,8 @@
 
 <div class="max-w-4xl mx-auto">
     <header class="text-center mb-8">
-        <h1 class="text-3xl font-bold text-gray-900 tracking-tight">門市主管每日回報系統 V3.2</h1>
-        <p class="text-gray-500 mt-2">Zebra Crossing Management System · 店鋪利潤中心每日損益完全體</p>
+        <h1 class="text-3xl font-bold text-gray-900 tracking-tight">門市主管每日回報系統 V3.3</h1>
+        <p class="text-gray-500 mt-2">Zebra Crossing Management System · 利潤中心每日損益完全體版</p>
     </header>
 
     <form id="hqForm">
@@ -190,7 +190,7 @@
 </div>
 
 <script>
-    // 各店靜態固定成本大盤配置
+    // 👑 各店靜態固定成本大盤配置 (完全根據您的財務算式折算為每日成本)
     const shopsConfig = {
         'zy': { name: '中原店', target: 2200, rentDaily: 2334, lossDaily: 666, amortDaily: 0, stockLossDaily: 0 },
         'xz': { name: '新竹店', target: 1400, rentDaily: Math.round(52000/30), lossDaily: Math.round(20000/30), amortDaily: 0, stockLossDaily: Math.round(20000/30) },
@@ -302,7 +302,7 @@
         };
     }
 
-    // 修正核心：監聽正確的表單 ID "hqForm"，確保送出按鈕能完整執行並產出文字報告
+    // 🚀 正式綁定修正：修正表單送出監聽器，確保點擊按鈕能 100% 吐出文字報告
     const form = document.getElementById('hqForm');
     form.addEventListener('submit', e => {
         e.preventDefault();
@@ -321,7 +321,7 @@
         const location = document.getElementById('currentLocation').value;
         const progress = document.getElementById('progress-text').innerText;
 
-        let report = `📋 【 ZC 門市主管營運日報 V3.2 · 大盤損益整合版 】\n`;
+        let report = `📋 【 ZC 門市主管營運日報 V3.3 · 大盤損益整合版 】\n`;
         report += `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
         report += `📅 日期：${date} (${day})  |  主管駐點：${location}\n`;
         report += `📈 主管核心排程執行率：${progress}\n`;
@@ -360,6 +360,8 @@
             report += `  💰 今日營業額：$${parseFloat(rev).toLocaleString()} | 📦 售出件數: ${pcs} 件 (日流速目標:${dailyTarget}件)\n`;
             report += `  📈 UPT評定：${upt} | 🎯 今日達成率: ${((pcs/dailyTarget)*100).toFixed(1)}%\n`;
             report += `  📊 月累積進度：${parseInt(acc).toLocaleString()} / ${shop.target}件 (${((acc/shop.target)*100).toFixed(1)}%)\n`;
+            
+            // 🔥 修正變數宣告：在此確保 textTop 有被 const 妥善宣告與串接
             const textTop = document.getElementById(`top3_${id}`).value || '-';
             report += `  🏆 銷售前三名：${textTop}\n`;
             report += `  ⚖️ 財務損益診斷 ➔ ${statusTag}\n\n`;
