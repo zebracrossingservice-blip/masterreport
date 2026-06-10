@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ZC 門市主管營運日報系統 V5.5</title>
+    <title>ZC 門市主管營運日報系統 V5.6</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body { 
@@ -33,14 +33,14 @@
         input:focus, select:focus, textarea:focus { outline: none; border-color: #0071e3; }
         .gantt-table { width: 100%; font-size: 11px; text-align: center; border-collapse: collapse; }
         .gantt-table th, .gantt-table td { border: 1px solid #e5e7eb; padding: 8px 4px; }
-        .progress-bar { height: 100%; background: #0071e3; transition: width 0.3s ease; }
+        .progress-fill { height: 100%; background: #0071e3; transition: width 0.3s ease; }
     </style>
 </head>
 <body class="p-3 md:p-6">
 
 <div class="max-w-6xl mx-auto">
     <header class="text-center mb-6">
-        <h1 class="text-3xl font-black text-gray-900 tracking-tight">門市主管每日回報系統 V5.5</h1>
+        <h1 class="text-3xl font-black text-gray-900 tracking-tight">門市主管每日回報系統 V5.6</h1>
         <p class="text-blue-700 font-bold mt-1">📊 週任務核心甘特圖 ＆ 每日店務考核 ＆ 損益精密計算完全體</p>
     </header>
 
@@ -52,7 +52,7 @@
             </div>
             
             <div class="w-full bg-gray-200 h-4 rounded-full overflow-hidden mb-4 border">
-                <div id="progress-fill" class="progress-bar w-0"></div>
+                <div id="progress-fill" class="progress-fill w-0"></div>
             </div>
 
             <div class="overflow-x-auto rounded-xl border">
@@ -115,15 +115,15 @@
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-3 mt-4 pt-4 border-t text-xs font-semibold text-gray-800">
-                <div class="p-2 bg-slate-50 rounded-lg"><label class="cursor-pointer"><input type="checkbox" class="milestone-task" id="t1" onchange="updateProgress()"> 1. 已給所有人10分及短評</label></div>
-                <div class="p-2 bg-slate-50 rounded-lg"><label class="cursor-pointer"><input type="checkbox" class="milestone-task" id="t2" onchange="updateProgress()"> 2. 已回報周報表至雲端系統</label></div>
-                <div class="p-2 bg-slate-50 rounded-lg"><label class="cursor-pointer"><input type="checkbox" class="milestone-task" id="t3" onchange="updateProgress()"> 3. 已找老闆核對開會完畢</label></div>
-                <div class="p-2 bg-slate-50 rounded-lg"><label class="cursor-pointer"><input type="checkbox" class="milestone-task" id="t4" onchange="updateProgress()"> 4. 已完成基本銷售概況分析</label></div>
-                <div class="p-2 bg-slate-50 rounded-lg"><label class="cursor-pointer"><input type="checkbox" class="milestone-task" id="t5" onchange="updateProgress()"> 5. 已提供上周市場現場報告</label></div>
-                <div class="p-2 bg-slate-50 rounded-lg"><label class="cursor-pointer"><input type="checkbox" class="milestone-task" id="t6" onchange="updateProgress()"> 6. 已提供上周招募人事狀況</label></div>
-                <div class="p-2 bg-slate-50 rounded-lg"><label class="cursor-pointer"><input type="checkbox" class="milestone-task" id="t7" onchange="updateProgress()"> 7. 已回報門市庫存/陳列款式問題</label></div>
-                <div class="p-2 bg-slate-50 rounded-lg"><label class="cursor-pointer"><input type="checkbox" class="milestone-task" id="t8" onchange="updateProgress()"> 8. 【週三前】已找中原新竹開會</label></div>
-                <div class="p-2 bg-slate-50 rounded-lg"><label class="cursor-pointer"><input type="checkbox" class="milestone-task" id="t9" onchange="updateProgress()"> 9. 【週六前】已找中山南西開會</label></div>
+                <div class="p-2 bg-slate-50 rounded-lg"><label class="cursor-pointer flex items-center gap-1"><input type="checkbox" class="milestone-task" id="t1" onchange="updateProgress()"> 1. 已給所有人10分及短評</label></div>
+                <div class="p-2 bg-slate-50 rounded-lg"><label class="cursor-pointer flex items-center gap-1"><input type="checkbox" class="milestone-task" id="t2" onchange="updateProgress()"> 2. 已回報周報表至雲端系統</label></div>
+                <div class="p-2 bg-slate-50 rounded-lg"><label class="cursor-pointer flex items-center gap-1"><input type="checkbox" class="milestone-task" id="t3" onchange="updateProgress()"> 3. 已找老闆核對開會完畢</label></div>
+                <div class="p-2 bg-slate-50 rounded-lg"><label class="cursor-pointer flex items-center gap-1"><input type="checkbox" class="milestone-task" id="t4" onchange="updateProgress()"> 4. 已完成基本銷售概況分析</label></div>
+                <div class="p-2 bg-slate-50 rounded-lg"><label class="cursor-pointer flex items-center gap-1"><input type="checkbox" class="milestone-task" id="t5" onchange="updateProgress()"> 5. 已提供上周市場現場報告</label></div>
+                <div class="p-2 bg-slate-50 rounded-lg"><label class="cursor-pointer flex items-center gap-1"><input type="checkbox" class="milestone-task" id="t6" onchange="updateProgress()"> 6. 已提供上周招募人事狀況</label></div>
+                <div class="p-2 bg-slate-50 rounded-lg"><label class="cursor-pointer flex items-center gap-1"><input type="checkbox" class="milestone-task" id="t7" onchange="updateProgress()"> 7. 已回報門市庫存/陳列款式問題</label></div>
+                <div class="p-2 bg-slate-50 rounded-lg"><label class="cursor-pointer flex items-center gap-1"><input type="checkbox" class="milestone-task" id="t8" onchange="updateProgress()"> 8. 【週三前】已找中原新竹開會</label></div>
+                <div class="p-2 bg-slate-50 rounded-lg"><label class="cursor-pointer flex items-center gap-1"><input type="checkbox" class="milestone-task" id="t9" onchange="updateProgress()"> 9. 【週六前】已找中山南西開會</label></div>
             </div>
         </div>
 
@@ -158,29 +158,37 @@
                 <div>
                     <span class="text-blue-700 block mb-1">1. 各店開門前晨會主持布達</span>
                     <div class="space-y-1">
-                        <label class="cursor-pointer"><input type="checkbox" name="m_chk_zy_1" checked> 中原店</label><br><label class="cursor-pointer"><input type="checkbox" name="m_chk_xz_1" checked> 新竹店</label><br>
-                        <label class="cursor-pointer"><input type="checkbox" name="m_chk_zs_1" checked> 中山店</label><br><label class="cursor-pointer"><input type="checkbox" name="m_chk_nx_1" checked> 南西店</label>
+                        <label class="cursor-pointer flex items-center gap-1"><input type="checkbox" name="m_chk_zy_1" checked> 中原店</label>
+                        <label class="cursor-pointer flex items-center gap-1"><input type="checkbox" name="m_chk_xz_1" checked> 新竹店</label>
+                        <label class="cursor-pointer flex items-center gap-1"><input type="checkbox" name="m_chk_zs_1" checked> 中山店</label>
+                        <label class="cursor-pointer flex items-center gap-1"><input type="checkbox" name="m_chk_nx_1" checked> 南西店</label>
                     </div>
                 </div>
                 <div>
                     <span class="text-blue-700 block mb-1">2. 各店開門店務遠端監控</span>
                     <div class="space-y-1">
-                        <label class="cursor-pointer"><input type="checkbox" name="m_chk_zy_2" checked> 中原店</label><br><label class="cursor-pointer"><input type="checkbox" name="m_chk_xz_2" checked> 新竹店</label><br>
-                        <label class="cursor-pointer"><input type="checkbox" name="m_chk_zs_2" checked> 中山店</label><br><label class="cursor-pointer"><input type="checkbox" name="m_chk_nx_2" checked> 南西店</label>
+                        <label class="cursor-pointer flex items-center gap-1"><input type="checkbox" name="m_chk_zy_2" checked> 中原店</label>
+                        <label class="cursor-pointer flex items-center gap-1"><input type="checkbox" name="m_chk_xz_2" checked> 新竹店</label>
+                        <label class="cursor-pointer flex items-center gap-1"><input type="checkbox" name="m_chk_zs_2" checked> 中山店</label>
+                        <label class="cursor-pointer flex items-center gap-1"><input type="checkbox" name="m_chk_nx_2" checked> 南西店</label>
                     </div>
                 </div>
                 <div>
                     <span class="text-blue-700 block mb-1">3. 黃金時段打開確認監控</span>
                     <div class="space-y-1">
-                        <label class="cursor-pointer"><input type="checkbox" name="m_chk_zy_3" checked> 中原店</label><br><label class="cursor-pointer"><input type="checkbox" name="m_chk_xz_3" checked> 新竹店</label><br>
-                        <label class="cursor-pointer"><input type="checkbox" name="m_chk_zs_3" checked> 中山店</label><br><label class="cursor-pointer"><input type="checkbox" name="m_chk_nx_3" checked> 南西店</label>
+                        <label class="cursor-pointer flex items-center gap-1"><input type="checkbox" name="m_chk_zy_3" checked> 中原店</label>
+                        <label class="cursor-pointer flex items-center gap-1"><input type="checkbox" name="m_chk_xz_3" checked> 新竹店</label>
+                        <label class="cursor-pointer flex items-center gap-1"><input type="checkbox" name="m_chk_zs_3" checked> 中山店</label>
+                        <label class="cursor-pointer flex items-center gap-1"><input type="checkbox" name="m_chk_nx_3" checked> 南西店</label>
                     </div>
                 </div>
                 <div>
                     <span class="text-blue-700 block mb-1">4. 各店閉店店務落實監控</span>
                     <div class="space-y-1">
-                        <label class="cursor-pointer"><input type="checkbox" name="m_chk_zy_4" checked> 中原店</label><br><label class="cursor-pointer"><input type="checkbox" name="m_chk_xz_4" checked> 新竹店</label><br>
-                        <label class="cursor-pointer"><input type="checkbox" name="m_chk_zs_4" checked> 中山店</label><br><label class="cursor-pointer"><input type="checkbox" name="m_chk_nx_4" checked> 南西店</label>
+                        <label class="cursor-pointer flex items-center gap-1"><input type="checkbox" name="m_chk_zy_4" checked> 中原店</label>
+                        <label class="cursor-pointer flex items-center gap-1"><input type="checkbox" name="m_chk_xz_4" checked> 新竹店</label>
+                        <label class="cursor-pointer flex items-center gap-1"><input type="checkbox" name="m_chk_zs_4" checked> 中山店</label>
+                        <label class="cursor-pointer flex items-center gap-1"><input type="checkbox" name="m_chk_nx_4" checked> 南西店</label>
                     </div>
                 </div>
             </div>
@@ -238,7 +246,8 @@
         </div>
 
         <div class="card p-5 mb-5">
-            <h2 class="section-title">三、各店業績數據 ＆ 每日店鋪利潤損益自動精算</h2>
+            <h2 class="section-title">三、各店業績數據 ＆ 每日店鋪利潤損益自動精算大師</h2>
+            <p class="text-xs text-slate-500 mb-4 font-medium">💰 算費大盤：天薪基礎算人事。固定攤銷日計算法則（中原$3000 / 新竹$3067 / 中山$4834 / 南西$20334，含3%耗損、租金及南西25萬裝潢費）。營業額KEY入按 **0.38毛利** 營運精算淨損益。</p>
             <div id="sales-container" class="space-y-4"></div>
         </div>
 
@@ -247,7 +256,7 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                     <label class="font-bold text-blue-900 block mb-1">🏢 1. 週邊三家類似定位競品考察 (優缺點/熱賣款人流)：</label>
-                    <textarea id="market_analysis" name="market_analysis" rows="4" class="p-2" placeholder="請填寫競品分析...">1. 競品A：陳列新穎、但缺碼。人流一般。&#10;2. 競品B：折扣大、但環境髒亂。人流大。&#10;3. 競品C：人員服務及時、基本款偏弱。人流中。</textarea>
+                    <textarea id="market_analysis" name="market_analysis" rows="4" class="p-2" placeholder="請填寫競品分析...">1. 競品A：陳列色系新穎、但架上常駐款缺碼。人流一般。&#10;2. 競品B：折扣大、但現場環境棉絮雜亂。人流大。&#10;3. 競品C：現場人員引導服務及時、但基本款偏弱。人流中。</textarea>
                     
                     <label class="font-bold text-gray-700 block mt-2 mb-1">🏙️ 2. 四大實體門市門口客流精確粗估 (過路客 / 進場客)：</label>
                     <div class="grid grid-cols-2 gap-2 text-[11px]">
@@ -278,7 +287,7 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs mb-4">
                 <div>
                     <label class="font-bold text-gray-700">1️⃣ 今日現場晨會布達/會議摘要與重點 (需填滿至少50字防弊大計)</label>
-                    <textarea id="meeting_summary" name="meeting_summary" oninput="checkMeetingLength()" rows="3" placeholder="請在此記錄今日會議摘要重點...">今日召開全體門市店長營運會議，重點布達全新自評工作考核規範。要求各店現場主管確實督導開閉店事務，嚴格查核門口騎樓清潔與玻璃全鏡面除塵。中午完成上週各店業績數據的流速去留分析。下午特別對PT人員進行艾克特系統與專業搭配技巧的OJT現場教學，要求在無客人的非黃金時段內對齊22項核心進度表，全力拉升UPT達成率。</textarea>
+                    <textarea id="meeting_summary" name="meeting_summary" oninput="checkMeetingLength()" rows="3" placeholder="請在此記錄今日會議摘要重點...">今日召開全體門市店長營運會議，重點布達6月全新自評考績管理規範。要求各店現場主管確實督導開閉店事務，嚴格查核門口騎樓清潔與玻璃全鏡面除塵。中午完成上週各店業績數據的流速去留分析。下午特別對PT人員進行艾克特系統與專業搭配技巧的OJT現場教學，要求在無客人的非黃金時段內對齊22項核心進度表，全力拉升UPT達成率。</textarea>
                     <p id="meeting-count" class="text-right text-xs text-red-500 font-bold">目前字數: 0 (還缺 50 字)</p>
                 </div>
                 <div>
@@ -289,7 +298,7 @@
                 </div>
             </div>
 
-            <span class="block font-black text-blue-900 text-xs mb-2">5️⃣ 目前整體核心指標 22 項人員學習進度表 (橫向聯動大表格，姓名留空)</span>
+            <span class="block font-black text-blue-900 text-xs mb-2">5️⃣ 目前整體核心指標 22 項人員學習進度表 (橫向聯動大表格，姓名完全空白)</span>
             <div class="overflow-x-auto rounded-xl border border-gray-200">
                 <table class="gantt-table w-full text-[10px]">
                     <thead>
@@ -388,7 +397,6 @@
         });
     }
 
-    // 🔥 修正：姓名欄位完全留空，改為純空白文字框輸入
     function renderStudyMatrix() {
         const tbody = document.getElementById('study-matrix');
         let html = "";
@@ -398,7 +406,7 @@
                 
                 html += `<tr class="hover:bg-slate-50">
                     ${rowSpanHtml}
-                    <td class="p-1 border"><input type="text" value="" placeholder="填同仁姓名" class="w-full p-0.5 text-center bg-transparent font-medium text-slate-800 border-none"></td>
+                    <td class="p-1 border"><input type="text" value="" placeholder="填姓名" class="w-full p-0.5 text-center bg-transparent font-medium text-slate-800 border-none"></td>
                     ${studyItems.map((item, idx) => `
                         <td class="p-1 border border-gray-100">
                             <input type="checkbox" class="study-chk" ${idx < 4 ? 'checked' : ''}>
@@ -465,9 +473,9 @@
         return { laborCost, fixedCost, netPL };
     }
 
-    // 🚀 核心修復：徹底綁定表單提交並修復變數宣告
-    const formEl = document.getElementById('hqForm');
-    formEl.addEventListener('submit', e => {
+    // 🚀 正確表單物件綁定與生成修復
+    const formElement = document.getElementById('hqForm');
+    formElement.addEventListener('submit', e => {
         e.preventDefault();
         
         const meetingText = document.getElementById('meeting_summary').value;
@@ -481,7 +489,7 @@
         const location = document.getElementById('currentLocation').value;
         const progress = document.getElementById('progress-text').innerText;
 
-        let report = `📋 【 ZC 門市主管營運日報 V5.5 · 甘特圖修復版 】\n`;
+        let report = `📋 【 ZC 門市主管營運日報 V5.6 · 損益警戒完美體 】\n`;
         report += `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
         report += `📅 日期：${date} (${day})  |  主管駐點門市：${location}\n`;
         report += `📊 本週主管重要甘特圖排程總執行率：${progress}\n`;
@@ -515,8 +523,8 @@
         });
 
         report += `\n《 二、各店社群行銷與客戶回覆核查 》\n`;
-        report += `  ▫️ 限動發布 ➔ ${formEl.sc_post_zy.value} | ${formEl.sc_post_xz.value} | ${formEl.sc_post_zs.value} | ${formEl.sc_post_nx.value}\n`;
-        report += `  ▫️ 客戶回覆 ➔ ${formEl.sc_msg_zy.value} | ${formEl.sc_msg_xz.value} | ${formEl.sc_msg_zs.value} | ${formEl.sc_msg_nx.value}\n`;
+        report += `  ▫️ 限動發布 ➔ ${formElement.sc_post_zy.value} | ${formElement.sc_post_xz.value} | ${formElement.sc_post_zs.value} | ${formElement.sc_post_nx.value}\n`;
+        report += `  ▫️ 客戶回覆 ➔ ${formElement.sc_msg_zy.value} | ${formElement.sc_msg_xz.value} | ${formElement.sc_msg_zs.value} | ${formElement.sc_msg_nx.value}\n`;
 
         report += `\n《 三、各店業績數據 ＆ 每日大盤損益核算明細 》\n`;
         let alertStores = [];
@@ -547,7 +555,6 @@
             report += `  📈 UPT評定：${upt} | 🎯 當日達成率: ${((pcs/dailyTarget)*100).toFixed(1)}%\n`;
             report += `  📊 月累積進度：${parseInt(acc).toLocaleString()} / ${shop.target}件 (${((acc/shop.target)*100).toFixed(1)}%)\n`;
             
-            // 修正點：加上 const 確保宣告完全
             const textTop = document.getElementById(`top3_${id}`).value || '-';
             report += `  🏆 銷售前三名：${textTop}\n`;
             report += `  ⚖️ 財務損益診斷 ➔ ${statusTag}\n\n`;
@@ -564,17 +571,17 @@
 
         report += `《 四、商圈市場觀察 ＆ 主管現場自檢 》\n`;
         report += ` 🏙️ 四店門口客流粗估 (路過/進場)：\n`;
-        report += `   - 中原: ${formEl.flow_zy.value} | 新竹: ${formEl.flow_xz.value}\n`;
-        report += `   - 中山: ${formEl.flow_zs.value} | 南西: ${formEl.flow_nx.value}\n`;
+        report += `   - 中原: ${formElement.flow_zy.value} | 新竹: ${formElement.flow_xz.value}\n`;
+        report += `   - 中山: ${formElement.flow_zs.value} | 南西: ${formElement.flow_nx.value}\n`;
         report += ` 👗 現場盲區核心評定指標：\n`;
-        report += `   - [${formEl.ev_陈列.value}] [${formEl.ev_環境.value}] [${formEl.ev_客流.value}] [${formEl.ev_人力.value}]\n`;
-        report += `   - [${formEl.ev_氣氛.value}] [${formEl.ev_主打.value}] [${formEl.ev_庫存.value}] [${formEl.ev_團隊.value}]\n`;
-        report += ` 🏪 附近三家定位競品考察分析：\n${formEl.market_analysis.value}\n\n`;
+        report += `   - [${formElement.ev_陈列.value}] [${formElement.ev_環境.value}] [${formElement.ev_客流.value}] [${formElement.ev_人力.value}]\n`;
+        report += `   - [${formElement.ev_氣氛.value}] [${formElement.ev_主打.value}] [${formElement.ev_庫存.value}] [${formElement.ev_團隊.value}]\n`;
+        report += ` 🏪 附近三家定位競品考察分析：\n${formElement.market_analysis.value}\n\n`;
 
         report += `《 五、會議摘要 ＆ 團隊 OJT 學習進度對齊 》\n`;
         report += ` 1️⃣ 今日會議核心摘要 (🔋50字+)：\n   ${meetingText}\n`;
-        report += ` 2️⃣ 今日現場 OJT 教學紀錄：${formEl.ojt_log.value}\n`;
-        report += ` 3️⃣ 昨日全員日報覆核與有意義反饋：\n   ${formEl.yesterday_feedback.value}\n\n`;
+        report += ` 2️⃣ 今日現場 OJT 教學紀錄：${formElement.ojt_log.value}\n`;
+        report += ` 3️⃣ 昨日全員日報覆核與有意義反饋：\n   ${formElement.yesterday_feedback.value}\n\n`;
 
         report += `《 六、各店人員日報總結分享 》\n${document.getElementById('staff_summary').value}\n`;
         report += `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
@@ -589,7 +596,7 @@
         const outputText = document.getElementById('outputText');
         outputText.select();
         document.execCommand('copy');
-        alert('V5.5 完美修復版日報內容已成功複製！請發至主管 LINE 核簽群。');
+        alert('V5.6 完美修復版日報內容已成功複製！請發至主管 LINE 核簽群。');
     }
 </script>
 </body>
